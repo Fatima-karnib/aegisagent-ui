@@ -1,0 +1,260 @@
+@import "tailwindcss";
+
+/* ============================================================
+   AegisAgent design tokens
+   Dark mode is the default. .light on <html> flips to light.
+   ============================================================ */
+
+:root {
+  /* Surfaces */
+  --bg: #070b16;
+  --bg-grid: rgba(45, 212, 191, 0.04);
+  --surface: #0c1322;
+  --surface-2: #111a2e;
+  --surface-3: #16203a;
+  --elevated: #0e1626;
+  --border: #1c2740;
+  --border-strong: #2a3a5c;
+
+  /* Text */
+  --text: #e6edf7;
+  --text-muted: #93a3bd;
+  --text-faint: #5c6b86;
+
+  /* Brand */
+  --navy: #1b2a4a;
+  --indigo: #4f6bed;
+  --accent: #2dd4bf; /* teal */
+  --accent-2: #22d3ee; /* cyan */
+  --accent-soft: rgba(45, 212, 191, 0.12);
+
+  /* Semantic verdicts */
+  --allow: #34d399;
+  --allow-soft: rgba(52, 211, 153, 0.12);
+  --block: #f43f5e;
+  --block-soft: rgba(244, 63, 94, 0.13);
+  --review: #f59e0b;
+  --review-soft: rgba(245, 158, 11, 0.13);
+  --info: #60a5fa;
+  --info-soft: rgba(96, 165, 250, 0.12);
+
+  --shadow: 0 1px 2px rgba(0, 0, 0, 0.4), 0 8px 24px rgba(0, 0, 0, 0.35);
+  --radius: 12px;
+}
+
+html.light {
+  --bg: #f6f8fc;
+  --bg-grid: rgba(27, 42, 74, 0.04);
+  --surface: #ffffff;
+  --surface-2: #f1f5fb;
+  --surface-3: #e7eef8;
+  --elevated: #ffffff;
+  --border: #dde5f1;
+  --border-strong: #c4d0e3;
+
+  --text: #0f1b30;
+  --text-muted: #51607a;
+  --text-faint: #8493ac;
+
+  --navy: #e2e8f5;
+  --indigo: #3b54d4;
+  --accent: #0d9488;
+  --accent-2: #0891b2;
+  --accent-soft: rgba(13, 148, 136, 0.1);
+
+  --allow: #059669;
+  --allow-soft: rgba(5, 150, 105, 0.1);
+  --block: #e11d48;
+  --block-soft: rgba(225, 29, 72, 0.1);
+  --review: #d97706;
+  --review-soft: rgba(217, 119, 6, 0.12);
+  --info: #2563eb;
+  --info-soft: rgba(37, 99, 235, 0.1);
+
+  --shadow: 0 1px 2px rgba(15, 27, 48, 0.06), 0 8px 24px rgba(15, 27, 48, 0.06);
+}
+
+@theme inline {
+  --color-bg: var(--bg);
+  --color-surface: var(--surface);
+  --color-surface-2: var(--surface-2);
+  --color-surface-3: var(--surface-3);
+  --color-elevated: var(--elevated);
+  --color-border: var(--border);
+  --color-border-strong: var(--border-strong);
+
+  --color-text: var(--text);
+  --color-muted: var(--text-muted);
+  --color-faint: var(--text-faint);
+
+  --color-navy: var(--navy);
+  --color-indigo: var(--indigo);
+  --color-accent: var(--accent);
+  --color-accent-2: var(--accent-2);
+
+  --color-allow: var(--allow);
+  --color-block: var(--block);
+  --color-review: var(--review);
+  --color-info: var(--info);
+
+  --font-sans: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-geist-mono), ui-monospace, monospace;
+
+  --radius-card: var(--radius);
+}
+
+* {
+  border-color: var(--border);
+}
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  background-image:
+    linear-gradient(var(--bg-grid) 1px, transparent 1px),
+    linear-gradient(90deg, var(--bg-grid) 1px, transparent 1px);
+  background-size: 44px 44px;
+  background-attachment: fixed;
+}
+
+/* Scrollbars */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: var(--border-strong);
+  border-radius: 8px;
+  border: 2px solid transparent;
+  background-clip: padding-box;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--text-faint);
+  background-clip: padding-box;
+  border: 2px solid transparent;
+}
+
+/* ----- Reusable component classes ----- */
+.card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+}
+
+.mono {
+  font-family: var(--font-mono);
+  font-feature-settings: "liga" 0;
+}
+
+.tnum {
+  font-variant-numeric: tabular-nums;
+}
+
+/* Verdict / status pulse animations */
+@keyframes blockflash {
+  0% {
+    background-color: var(--block-soft);
+    box-shadow: inset 3px 0 0 var(--block);
+  }
+  100% {
+    background-color: transparent;
+    box-shadow: inset 3px 0 0 transparent;
+  }
+}
+.row-block-flash {
+  animation: blockflash 1.8s ease-out;
+}
+
+@keyframes rowenter {
+  from {
+    opacity: 0;
+    transform: translateY(-6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.row-enter {
+  animation: rowenter 0.35s ease-out;
+}
+
+@keyframes livepulse {
+  0%,
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.45;
+    transform: scale(0.78);
+  }
+}
+.live-dot {
+  animation: livepulse 1.6s ease-in-out infinite;
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -480px 0;
+  }
+  100% {
+    background-position: 480px 0;
+  }
+}
+.skeleton {
+  background: linear-gradient(
+    90deg,
+    var(--surface-2) 0%,
+    var(--surface-3) 50%,
+    var(--surface-2) 100%
+  );
+  background-size: 480px 100%;
+  animation: shimmer 1.4s infinite linear;
+  border-radius: 6px;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+.spin {
+  animation: spin 0.8s linear infinite;
+}
+
+.glow-accent {
+  box-shadow: 0 0 0 1px var(--accent), 0 0 22px -4px var(--accent);
+}
+
+/* Toast slide-in */
+@keyframes toastin {
+  from {
+    opacity: 0;
+    transform: translateX(24px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+.toast-enter {
+  animation: toastin 0.28s cubic-bezier(0.2, 0.9, 0.3, 1);
+}
+
+/* Focus ring */
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
